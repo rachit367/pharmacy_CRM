@@ -32,7 +32,6 @@ app.include_router(sales.router)
 
 @app.on_event("startup")
 def on_startup():
-    Base.metadata.drop_all(bind=engine)   # TODO: remove after first deploy
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
