@@ -19,8 +19,7 @@ const api = axios.create({
     },
 });
 
-// ── Dashboard APIs ────────────────────────────────────────
-
+// Dashboard
 export const getDashboardSummary = async (): Promise<DashboardSummary> => {
     const { data } = await api.get('/dashboard/summary');
     return data;
@@ -41,8 +40,7 @@ export const getPurchaseSummary = async (): Promise<PurchaseSummary[]> => {
     return data;
 };
 
-// ── Medicines (Inventory) APIs ────────────────────────────
-
+// Medicines / Inventory
 export const getInventoryOverview = async (): Promise<InventoryOverview> => {
     const { data } = await api.get('/medicines/overview');
     return data;
@@ -94,8 +92,7 @@ export const deleteMedicine = async (id: number): Promise<void> => {
     await api.delete(`/medicines/${id}`);
 };
 
-// ── Sales APIs ────────────────────────────────────────────
-
+// Sales
 export const createSale = async (sale: SaleCreate): Promise<Sale> => {
     const { data } = await api.post('/sales', sale);
     return data;

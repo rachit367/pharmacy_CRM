@@ -4,8 +4,6 @@ from datetime import date, datetime
 from enum import Enum
 
 
-# ── Enums ──────────────────────────────────────────────────
-
 class MedicineStatusEnum(str, Enum):
     active = "active"
     low_stock = "low_stock"
@@ -18,8 +16,6 @@ class PaymentModeEnum(str, Enum):
     card = "Card"
     upi = "UPI"
 
-
-# ── Medicine Schemas ───────────────────────────────────────
 
 class MedicineBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=200)
@@ -68,8 +64,6 @@ class MedicineResponse(MedicineBase):
         from_attributes = True
 
 
-# ── Sale Schemas ───────────────────────────────────────────
-
 class SaleItemCreate(BaseModel):
     medicine_id: int
     quantity: int = Field(..., gt=0)
@@ -106,8 +100,6 @@ class SaleResponse(BaseModel):
     class Config:
         from_attributes = True
 
-
-# ── Dashboard Schemas ──────────────────────────────────────
 
 class DashboardSummary(BaseModel):
     todays_sales: float

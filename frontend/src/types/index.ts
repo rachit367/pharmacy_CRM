@@ -1,4 +1,3 @@
-// ── Medicine Types ─────────────────────────────────────────
 export interface Medicine {
     id: number;
     name: string;
@@ -38,7 +37,6 @@ export interface MedicineUpdate {
     supplier?: string;
 }
 
-// ── Sale Types ────────────────────────────────────────────
 export interface Sale {
     id: number;
     invoice_no: string;
@@ -61,7 +59,6 @@ export interface SaleCreate {
     items: SaleItemCreate[];
 }
 
-// ── Dashboard Types ───────────────────────────────────────
 export interface DashboardSummary {
     todays_sales: number;
     items_sold_today: number;
@@ -80,7 +77,6 @@ export interface PurchaseSummary {
     created_at: string;
 }
 
-// ── Inventory Overview ────────────────────────────────────
 export interface InventoryOverview {
     total_items: number;
     active_stock: number;

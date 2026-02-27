@@ -315,6 +315,12 @@ const Dashboard = forwardRef<{ triggerExport: () => void }, DashboardProps>(({ o
                                             </div>
                                         )}
                                     </div>
+                                    <button
+                                        className="btn btn-success"
+                                        onClick={() => { if (searchQuery) handleSearch(searchQuery); }}
+                                    >
+                                        Enter
+                                    </button>
                                     <select
                                         className="payment-input"
                                         value={paymentMode}

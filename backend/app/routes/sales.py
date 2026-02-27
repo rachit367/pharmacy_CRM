@@ -88,7 +88,7 @@ def create_sale(sale: SaleCreate, db: Session = Depends(get_db)):
         # Deduct quantity from inventory
         medicine.quantity -= item_data["quantity"]
 
-        # Auto-update status based on remaining quantity
+        # update status if stock changed
         if medicine.quantity == 0:
             medicine.status = MedicineStatus.OUT_OF_STOCK.value
         elif medicine.quantity <= LOW_STOCK_THRESHOLD:

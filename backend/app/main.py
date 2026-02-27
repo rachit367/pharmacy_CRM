@@ -12,11 +12,11 @@ load_dotenv()
 
 app = FastAPI(
     title="Pharmacy CRM API",
-    description="Backend API for Pharmacy CRM - Manage inventory, sales, and purchase orders",
+    description="Backend API for Pharmacy CRM",
     version="1.0.0"
 )
 
-# CORS configuration
+# CORS
 origins = os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(
     CORSMiddleware,
@@ -26,7 +26,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
 app.include_router(dashboard.router)
 app.include_router(medicines.router)
 app.include_router(sales.router)
@@ -34,18 +33,14 @@ app.include_router(sales.router)
 
 @app.on_event("startup")
 def on_startup():
-    """Create tables and seed initial data on first run."""
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
     try:
-        # Only seed if empty
         if db.query(Medicine).count() == 0:
             seed_data(db)
 
-        # Refresh statuses on every startup
         refresh_medicine_statuses(db)
-
     finally:
         db.close()
 
@@ -61,10 +56,9 @@ def health_check():
 
 
 def seed_data(db):
-    """Populate the database with realistic seed data matching the reference UI."""
+    """Insert initial data into the database."""
     today = date.today()
 
-    # ── Medicines (matching UI screenshot 2) ────────────────
     medicines_data = [
         Medicine(
             name="Paracetamol 650mg",
@@ -190,7 +184,6 @@ def seed_data(db):
     db.add_all(medicines_data)
     db.flush()
 
-    # ── Sales (matching UI screenshot 1 recent sales) ──────
     sales_data = [
         Sale(
             invoice_no="INV-2024-1234",
@@ -241,7 +234,6 @@ def seed_data(db):
     db.add_all(sales_data)
     db.flush()
 
-    # ── Sale Items ─────────────────────────────────────────
     sale_items_data = [
         SaleItem(sale_id=1, medicine_id=1, medicine_name="Paracetamol 650mg", quantity=2, unit_price=25.00, total_price=50.00),
         SaleItem(sale_id=1, medicine_id=5, medicine_name="Amoxicillin 500mg", quantity=1, unit_price=55.00, total_price=55.00),
@@ -256,7 +248,6 @@ def seed_data(db):
     ]
     db.add_all(sale_items_data)
 
-    # ── Purchase Orders ────────────────────────────────────
     purchase_orders = [
         PurchaseOrder(
             supplier="MedSupply Co.",

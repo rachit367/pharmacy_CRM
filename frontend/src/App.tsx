@@ -1,16 +1,25 @@
 import React, { useState, useRef } from 'react';
+import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import Inventory from './pages/Inventory';
 import AddMedicineModal from './components/AddMedicineModal';
-import { createMedicine, getMedicines } from './services/api';
-import { MedicineCreate, Medicine } from './types';
+import { createMedicine } from './services/api';
+import { MedicineCreate } from './types';
 
 const App: React.FC = () => {
+    const [activeTab, setActiveTab] = useState('dashboard');
     const [activePage, setActivePage] = useState<'dashboard' | 'inventory'>('dashboard');
     const [showAddModal, setShowAddModal] = useState(false);
     const inventoryRef = useRef<{ triggerExport: () => void }>(null);
     const dashboardRef = useRef<{ triggerExport: () => void }>(null);
+
+    const handleTabChange = (tab: string) => {
+        setActiveTab(tab);
+        if (tab === 'dashboard' || tab === 'menu') {
+            setActivePage('dashboard');
+        }
+    };
 
     const handleAddMedicine = async (medicine: MedicineCreate) => {
         await createMedicine(medicine);
@@ -26,14 +35,18 @@ const App: React.FC = () => {
 
     const switchToInventory = () => {
         setActivePage('inventory');
+        setActiveTab('search');
     };
 
     const switchToDashboard = () => {
         setActivePage('dashboard');
+        setActiveTab('dashboard');
     };
 
     return (
         <div className="app-layout">
+            <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />
+
             <div className="main-content">
                 <Header
                     onAddMedicine={() => setShowAddModal(true)}

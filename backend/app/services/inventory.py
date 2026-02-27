@@ -7,11 +7,7 @@ LOW_STOCK_THRESHOLD = 50
 
 
 def refresh_medicine_statuses(db: Session):
-    """
-    Scans all medicines and auto-updates their status based on:
-    - Expiry date (if expired)
-    - Quantity (if zero -> out_of_stock, if below threshold -> low_stock)
-    """
+    """Update medicine statuses based on quantity and expiry date."""
     medicines = db.query(Medicine).all()
     today = date.today()
 
