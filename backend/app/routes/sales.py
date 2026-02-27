@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from datetime import datetime
-import random
 from ..database import get_db
 from ..models import Sale, SaleItem, Medicine, MedicineStatus
 from ..schemas import SaleCreate, SaleResponse, SaleItemResponse
